@@ -1,0 +1,201 @@
+<?php 
+
+session_start();
+if (isset($_SESSION['user'])) {
+    header("Location: dashboard.php", true, 301);
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="icon" href="../Resources/wifi.png">
+        <link rel="stylesheet" href="../CSS/login.css">
+        <title>Welcome to NIC WI-FI</title>
+    </head>
+<script>
+    function ischar(evt)
+    {
+         evt=(evt)? evt : window.event;
+        var ch=(evt.which)? evt.which : evt.keywhich;
+        if(!((ch>=97&&ch<=122)||(ch>=65&&ch<=90) || ch == 32))
+        {
+            alert("Enter character only");
+            return false;
+        }
+
+    }
+
+    var numberCount = 0;
+    function isnumber(evt)
+    {
+        evt=(evt)? evt : window.event;
+        var ch=(evt.which)? evt.which : evt.keywhich;
+        if(!(ch>=48&&ch<=57) && numberCount <= 10)
+        {
+            alert("Enter numbers only");
+            return false;
+        }
+        else if (numberCount >= 10) {
+            alert("Invalid Number");
+            numberCount=0;
+            document.getElementById("mobileno").value =  "";
+            return false;
+        }
+        else {
+            numberCount ++;
+        }
+    }
+    
+    function checkemail()
+    {
+        if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(document.getElementById("email").value)){
+            if(!document.getElementById("email").value=="") {
+                return true;
+            }
+            else {
+                document.getElementById("email").value = "";
+                document.getElementById("email").focus();
+                return false;
+            }
+        }
+        else {
+            alert("Invalid E-mail Address! Please re-enter From Address.");
+            document.getElementById("email").value = "";
+            document.getElementById("email").focus();
+            return false;
+        }
+    }
+
+
+    function checkDeclaration()
+    {
+        var name= document.getElementById("fname").value;
+        var designation= document.getElementById("designation").value;
+        var empcode= document.getElementById("empcode").value;
+        var mobileno= document.getElementById("mobileno").value;
+        var email= document.getElementById("email").value;
+        var user= document.getElementById("users").value;
+        var pass1= document.getElementById("passw").value;
+        var pass2= document.getElementById("confpass").value;
+        var v1= document.getElementById("nic").checked;
+        var v2= document.getElementById("civilservice").checked;
+        var v3= document.getElementById("ministry").checked;
+        var v4= document.getElementById("fms").checked;
+        var v5= document.getElementById("trainee").checked;
+        var v6= document.getElementById("other").value;
+        var v7= document.getElementById("declaration").checked;
+
+        if (name != "" && designation != "" && empcode != "" && mobileno != "" && email != "" && user != "" && 
+            pass1 != "" && pass2 != "") {
+            if (v1 || v2 || v3 || v4 || v5 || v6 != "") {
+                if (!v7) {
+                    alert("Please agree to Terms and Conditions");
+                }
+            }    
+            else {
+                alert("Please select User Category");
+            }        
+        }
+    }
+
+    function isValidPass() {
+        pass1 = document.getElementById("passw").value;
+        pass2 = document.getElementById("confpass").value;
+
+        if (pass1 != pass2) {
+            alert("Passwords don't match!");
+            document.getElementsByName("confpass").value;
+            return false;
+        }
+    }
+
+    var flag = true
+
+    function toggleElement(element) {
+        if (!element.checked) {
+            document.getElementById("Submit1").disabled=true;
+        }
+        else if(flag) {
+            element.checked = !element.checked;
+            alert("I hereby declare that:\n1. The information provided is correct.\n2. Will not indulge in any activity and no attempt will be made to gain\ unauthorized access to other NIC websites and facilities.\n3. I am responsible for the content/ data uploaded in the servers through WI-FI.\ \n\nIf at a later stage any information is found to be incorrect or non-compliance with the points above, it will result in the cancellation\ of WI-FI certificate.")
+            flag = false
+        }
+        else {
+            document.getElementById("Submit1").disabled=false;
+            flag = true;
+        }
+    }
+
+</script>
+
+<body>
+    <header>
+        <label id="inoc">iNOC</label>
+        <img id="logo2" src="../Resources/DigitalIndia-logo.png" alt="DigitalIndia-logo">
+        <img id="logo1" src="../Resources/NIC-logo2.png" alt="NIC-logo">
+        <img id="logotext" src="../Resources/NIC-txt.png" alt="NIC-logotxt">
+    </header>
+    <hr>
+    <div id="main">
+        <div id="login1">
+            <h2>Register</h2>
+            <form action="/PHP/register.php" method="POST">
+                <h4>Personal Details:</h4>
+                <label>Full Name: </label>
+                <input type="text" id="fname" name="fname" onkeypress="return ischar()" required id="fname">&nbsp&nbsp&nbsp&nbsp
+                <label>Designation: </label>
+                <input type="text" id="designation" name="designation" onkeypress="return ischar()" required>&nbsp&nbsp&nbsp&nbsp
+                <label>Employee Code: </label>
+                <input type="text" id="empcode" name="empcode" required>&nbsp&nbsp&nbsp&nbsp
+                <label>Mobile Number: </label>
+                <input type="text" id="mobileno" name="mobileno" onkeypress="return isnumber()" id="mobileno" required><br><br>
+                <label>Email Address: </label>
+                <input type="text" name="email" id="email" onchange="checkemail()" required>&nbsp&nbsp&nbsp&nbsp
+                <label>Division/Group (For NIC Employees): </label>
+                <input type="text" name="nic_div">&nbsp&nbsp&nbsp&nbsp
+                <label>Location: </label>
+                <input type="text" name="nic_loc"><br><br>
+                <label>Department/Ministry (For non-NIC Officials): </label>
+                <input type="text" name="nonic_dept"><br><br>
+                <label>Username: </label>
+                <input type="text" id="users" name="user" required>&nbsp&nbsp&nbsp&nbsp
+                <label>Password: </label>
+                <input type="password" id="passw" name="pass" required>&nbsp&nbsp&nbsp&nbsp
+                <label>Confirm Password: </label>
+                <input type="password" id="confpass" name="confpass" onchange="isValidPass()" required><br><br>
+                <h4>User Category:</h4>
+                <input type="radio" name="cat" value="NIC" id="nic">NIC Employee&nbsp
+                <input type="radio" name="cat" value="civilservice" id="civilservice">Hon'ble Ministers/Civil Services Officers&nbsp
+                <input type="radio" name="cat" value="ministry" id="ministry">Ministry Officers&nbsp
+                <input type="radio" name="cat" value="fms" id="fms">FMS Staff&nbsp
+                <input type="radio" name="cat" value="trainee" id="trainee">Trainee<br><br>
+                <label>Other: </label>    
+                <input type=text name="cat" id="other"><br><br>
+                <input id="Submit1" type="submit" value="Register User" disabled="true" onclick="checkDeclaration()">
+            </form>
+            <input type="checkbox" name="declaration" id="declaration" onchange="toggleElement(this)">I have accepted the terms and conditions.
+        </div>
+        <hr id="divider">
+        <div id="login2">
+            <h3>Already registered? Sign in</h3>
+            <form action="authenticate.php" method="post">
+                <input id="user" type="text" name="user" placeholder="Username"><br>
+                <input id="pass" type="password" name="pass" placeholder="password"><br>
+                <input id="Submit2" type="submit" value="Login"><br> 
+            </form>    
+            <a href="#">Forgot password?</a>
+        </div>
+    </div>
+    <hr>
+    <footer>
+        <a href="#">About Us</a>&nbsp&nbsp&nbsp&nbsp
+        <a href="#">Services</a>&nbsp&nbsp&nbsp&nbsp
+        <a href="#">Contact Us</a><br>
+        <p>&copy Copyright This site is designed, developed, hosted and maintained by National Informatics Centre,<br>
+        Ministry of Electronics & Information Technology, Government of India.</p>
+    </footer>
+</body>
+</html>
