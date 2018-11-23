@@ -94,7 +94,7 @@ if (!$user) {
 						<td>$os</td>";
 						if ($status === "pending") {
 							$password=$each['password'];
-							$search = substr($password, 0, 5);
+							$search = substr($password, 0, 6);
 							$password=str_replace($search, "", $password);
 							echo "<td><span style='color:blue'>".ucfirst($status)."</span></td>";
 							echo '<td>'.$from.'</td>
@@ -104,7 +104,7 @@ if (!$user) {
 						}
 						if ($status === "approved") {
 							$password=$each['password'];
-							$search = substr($password, 0, 5);
+							$search = substr($password, 0, 6);
 							$password=str_replace($search, "", $password);
 							echo "<td><span style='color:green'>".ucfirst($status)."</span></td>";
 							echo '<td>'.$from.'</td>
