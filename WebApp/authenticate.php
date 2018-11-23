@@ -14,15 +14,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$pass = $_POST['pass'];
 	$pass = filter_var($pass, FILTER_SANITIZE_STRING);
 	$pass = stripslashes($pass);
-	$salt = "$6$rounds=5000$NIC$";
-	$pass = mysqli_real_escape_string($conn, crypt($pass, $salt));
+	$pass = mysqli_real_escape_string($conn, $pass);
 
-	$sql = "SELECT * FROM registration WHERE username = '".$user."' and password = '".$pass."'";
+	$sql = "SELECT * FROM registration WHERE username = '".$user."'";
 
 	$result = mysqli_query($conn, $sql);
 	$count = mysqli_num_rows($result);
 
-	if ($count === 1) {
+	$sql = "SELECT password FROM registration where username = '".$user."'";
+	$result = mysqli_query($conn, $sql);
+
+	$each=mysqli_fetch_array($result);
+
+	if ($count === 1 && password_verify($pass, $each['password'])) {
 		$_SESSION['user'] = $user;
 		closeConnection($conn);
 		header("Location: dashboard.php", true, 301);

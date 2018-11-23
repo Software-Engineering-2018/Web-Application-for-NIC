@@ -55,8 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$pass = $_POST['pass'];
 	$pass = filter_var($pass, FILTER_SANITIZE_STRING);
 	$pass = stripslashes($pass);
-	$salt = '$6$rounds=5000$NIC$';
-	$pass = mysqli_real_escape_string($conn, crypt($pass, $salt));
+	$pass = mysqli_real_escape_string($conn, password_hash($pass, PASSWORD_DEFAULT));
 
 	$cat = $_POST['cat'];
 	$cat = filter_var($cat, FILTER_SANITIZE_STRING);
