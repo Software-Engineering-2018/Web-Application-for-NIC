@@ -1,0 +1,46 @@
+<?php 
+
+session_start();
+if (isset($_SESSION['user'])) {
+    header("Location: dashboard.php", true, 301);
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="icon" href="../Resources/wifi.png">
+        <link rel="stylesheet" href="CSS/login.css">
+        <title>Welcome to NIC WI-FI</title>
+    </head>
+<body>
+    <header>
+        <label id="inoc">iNOC</label>
+        <img id="logo2" src="../Resources/DigitalIndia-logo.png" alt="DigitalIndia-logo">
+        <img id="logo1" src="../Resources/NIC-logo2.png" alt="NIC-logo">
+        <img id="logotext" src="../Resources/NIC-txt.png" alt="NIC-logotxt">
+    </header>
+    <hr>
+    <div id="main">
+        <div id="login">
+            <h3>Administrator Sign In</h3>
+            <form action="authenticate.php" method="post">
+                <input id="user" type="text" name="user" placeholder="Username" required><br>
+                <input id="pass" type="password" name="pass" placeholder="password" required><br>
+                <input id="submit" type="submit" value="Login"><br> 
+            </form>    
+            <a href="#">Forgot password?</a>
+        </div>
+    </div>
+    <hr>
+    <footer>
+        <a href="#">About Us</a>&nbsp&nbsp&nbsp&nbsp
+        <a href="#">Services</a>&nbsp&nbsp&nbsp&nbsp
+        <a href="#">Contact Us</a><br>
+        <p>&copy Copyright This site is designed, developed, hosted and maintained by National Informatics Centre,<br>
+        Ministry of Electronics & Information Technology, Government of India.</p>
+    </footer>
+</body>
+</html>
