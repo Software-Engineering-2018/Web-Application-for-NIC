@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$pass = $_POST['pass'];
 	$pass = filter_var($pass, FILTER_SANITIZE_STRING);
 	$pass = stripslashes($pass);
-	$salt = "$6$rounds=5000$NIC$";
+	$salt = '$6$rounds=5000$NIC$';
 	$pass = mysqli_real_escape_string($conn, crypt($pass, $salt));
 
 	$cat = $_POST['cat'];
@@ -67,9 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$sql = "INSERT INTO registration VALUES('".$fname."','".$designation."','".$empcode."',".$mobileno.",'".$email."','".$nic_div."','".$nic_loc."','".$nonic_dept."','".$user."','".$pass."','".$cat."')";
 
 	if (!mysqli_query($conn, $sql)) {
-		closeConnection($conn);
 		echo "<script>alert(\"Registration failed: ".mysqli_error($conn)."\");</script>";
 		echo "<script>setTimeout(\"location.href = 'login.html'\",20);</script>";
+		closeConnection($conn);
 	}
 	else {
 		closeConnection($conn);
